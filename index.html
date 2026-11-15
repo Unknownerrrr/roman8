@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로마서 8장 암송</title>
+
+<style>
+* { box-sizing: border-box; }
+body { max-width: 900px; margin: 30px auto; padding: 20px; font-family: system-ui, sans-serif; line-height: 1.8; background: #f3f5ef; color: #294535; }
+section { background: white; padding: 24px; border-radius: 16px; margin: 18px 0; box-shadow: 0 4px 18px rgba(35,65,43,.05); }
+textarea { width: 100%; padding: 14px; font: inherit; border: 1px solid #aabbab; border-radius: 8px; resize: vertical; }
+button { padding: 10px 16px; margin: 8px 6px 0 0; background: #365c43; color: white; border: 0; border-radius: 8px; cursor: pointer; font: inherit; }
+button.secondary { background: #e9eee6; color: #365c43; }
+button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid #87a675; outline-offset: 3px; }
+progress { width: 100%; height: 10px; accent-color: #477c54; }
+.progress-line { display:flex; justify-content:space-between; gap:12px; align-items:center; margin: 14px 0 4px; }
+.verse { display:flex; gap:14px; padding:16px 0; border-bottom:1px solid #e1e8dc; }
+.number { flex-shrink:0; padding-top:4px; color:#61735d; }
+.words { display:flex; flex-wrap:wrap; gap:7px; min-width:0; }
+.word { display:inline-block; max-width:100%; overflow-wrap:anywhere; padding:4px 9px; border:1px solid #d8e0d4; border-radius:7px; background:#f7f8f5; color:#9aa397; }
+.word.done { color:#294535; background:#eaf2e4; border-color:#d5e4cd; }
+.word.pending { color:#a3aa9e; background:#fafbf9; }
+.input-panel { position:sticky; bottom:0; margin-top:20px; padding:16px; background:#fff; border:1px solid #dce5d8; border-radius:12px; box-shadow:0 -5px 18px rgba(35,65,43,.08); }
+.input-label { display:block; color:#61735d; font-size:14px; margin-bottom:6px; }
+#typing { width:100%; padding:12px 14px; border:2px solid #9bb393; border-radius:9px; font:inherit; font-size:20px; color:#294535; background:#fbfdf9; }
+#message { min-height:26px; margin:8px 0 0; color:#98422f; }
+#message.success { color:#477c54; }
+#hint { color:#61735d; font-size:14px; margin:8px 0 0; }
+.controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+[hidden] { display:none !important; }
+@media (max-width:600px) { body { padding:12px; margin:12px auto; } section { padding:16px; } .verse { gap:8px; } .word { padding:4px 7px; } .input-panel { padding:12px; } }
+</style>
+</head>
+
+<body>
+<h1>로마서 8장 암송</h1>
+<p>단어를 입력하면 완성되는 즉시 다음 단어로 자동 이동합니다. 스페이스와 엔터는 필요 없습니다.</p>
+
+<section id="setup">
+<h2>암송 본문</h2>
+<p>
+보내주신 로마서 8장 1–39절이 들어 있습니다.
+한 줄이 한 절입니다.
+</p>
+
+<label for="text">연습할 본문</label>
+
+<textarea id="text" rows="10">
+1 그러므로 이제 그리스도 예수 안에 있는 자에게는 결코 정죄함이 없나니
+2 이는 그리스도 예수 안에 있는 생명의 성령의 법이 죄와 사망의 법에서 너를 해방하였음이라
+3 율법이 육신으로 말미암아 연약하여 할 수 없는 그것을 하나님은 하시나니 곧 죄로 말미암아 자기 아들을 죄 있는 육신의 모양으로 보내어 육신에 죄를 정하사
+4 육신을 따르지 않고 그 영을 따라 행하는 우리에게 율법의 요구가 이루어지게 하려 하심이니라
+5 육신을 따르는 자는 육신의 일을, 영을 따르는 자는 영의 일을 생각하나니
+6 육신의 생각은 사망이요 영의 생각은 생명과 평안이니라
+7 육신의 생각은 하나님과 원수가 되나니 이는 하나님의 법에 굴복하지 아니할 뿐 아니라 할 수도 없음이라
+8 육신에 있는 자들은 하나님을 기쁘시게 할 수 없느니라
+9 만일 너희 속에 하나님의 영이 거하시면 너희가 육신에 있지 아니하고 영에 있나니 누구든지 그리스도의 영이 없으면 그리스도의 사람이 아니라
+10 또 그리스도께서 너희 안에 계시면 몸은 죄로 말미암아 죽은 것이나 영은 의로 말미암아 살아 있는 것이니라
+11 예수를 죽은 자 가운데서 살리신 이의 영이 너희 안에 거하시면 그리스도 예수를 죽은 자 가운데서 살리신 이가 너희 안에 거하시는 그의 영으로 말미암아 너희 죽을 몸도 살리시리라
+12 그러므로 형제들아 우리가 빚진 자로되 육신에게 져서 육신대로 살 것이 아니니라
+13 너희가 육신대로 살면 반드시 죽을 것이로되 영으로써 몸의 행실을 죽이면 살리니
+14 무릇 하나님의 영으로 인도함을 받는 사람은 곧 하나님의 아들이라
+15 너희는 다시 무서워하는 종의 영을 받지 아니하고 양자의 영을 받았으므로 우리가 아빠 아버지라고 부르짖느니라
+16 성령이 친히 우리의 영과 더불어 우리가 하나님의 자녀인 것을 증언하시나니
+17 자녀이면 또한 상속자 곧 하나님의 상속자요 그리스도와 함께 한 상속자니 우리가 그와 함께 영광을 받기 위하여 고난도 함께 받아야 할 것이니라
+18 생각하건대 현재의 고난은 장차 우리에게 나타날 영광과 비교할 수 없도다
+19 피조물이 고대하는 바는 하나님의 아들들이 나타나는 것이니
+20 피조물이 허무한 데 굴복하는 것은 자기 뜻이 아니요 오직 굴복하게 하시는 이로 말미암음이라
+21 그 바라는 것은 피조물도 썩어짐의 종 노릇 한 데서 해방되어 하나님의 자녀들의 영광의 자유에 이르는 것이니라
+22 피조물이 다 이제까지 함께 탄식하며 함께 고통을 겪고 있는 것을 우리가 아느니라
+23 그뿐 아니라 또한 우리 곧 성령의 처음 익은 열매를 받은 우리까지도 속으로 탄식하여 양자 될 것 곧 우리 몸의 속량을 기다리느니라
+24 우리가 소망으로 구원을 얻었으매 보이는 소망이 소망이 아니니 보는 것을 누가 바라리요
+25 만일 우리가 보지 못하는 것을 바라면 참음으로 기다릴지니라
+26 이와 같이 성령도 우리의 연약함을 도우시나니 우리는 마땅히 기도할 바를 알지 못하나 오직 성령이 말할 수 없는 탄식으로 우리를 위하여 친히 간구하시느니라
+27 마음을 살피시는 이가 성령의 생각을 아시나니 이는 성령이 하나님의 뜻대로 성도를 위하여 간구하심이니라
+28 우리가 알거니와 하나님을 사랑하는 자 곧 그의 뜻대로 부르심을 입은 자들에게는 모든 것이 합력하여 선을 이루느니라
+29 하나님이 미리 아신 자들을 또한 그 아들의 형상을 본받게 하기 위하여 미리 정하셨으니 이는 그로 많은 형제 중에서 맏아들이 되게 하려 하심이니라
+30 또 미리 정하신 그들을 또한 부르시고 부르신 그들을 또한 의롭다 하시고 의롭다 하신 그들을 또한 영화롭게 하셨느니라
+31 그런즉 이 일에 대하여 우리가 무슨 말 하리요 만일 하나님이 우리를 위하시면 누가 우리를 대적하리요
+32 자기 아들을 아끼지 아니하시고 우리 모든 사람을 위하여 내주신 이가 어찌 그 아들과 함께 모든 것을 우리에게 주시지 아니하겠느냐
+33 누가 능히 하나님께서 택하신 자들을 고발하리요 의롭다 하신 이는 하나님이시니
+34 누가 정죄하리요 죽으실 뿐 아니라 다시 살아나신 이는 그리스도 예수시니 그는 하나님 우편에 계신 자요 우리를 위하여 간구하시는 자시니라
+35 누가 우리를 그리스도의 사랑에서 끊으리요 환난이나 곤고나 박해나 기근이나 적신이나 위험이나 칼이랴
+36 기록된 바 우리가 종일 주를 위하여 죽임을 당하게 되며 도살 당할 양 같이 여김을 받았나이다 함과 같으니라
+37 그러나 이 모든 일에 우리를 사랑하시는 이로 말미암아 우리가 넉넉히 이기느니라
+38 내가 확신하노니 사망이나 생명이나 천사들이나 권세자들이나 현재 일이나 장래 일이나 능력이나
+39 높음이나 깊음이나 다른 어떤 피조물이라도 우리를 우리 주 그리스도 예수 안에 있는 하나님의 사랑에서 끊을 수 없으리라
+</textarea>
+
+<button id="start" type="button">연습 시작</button>
+<p id="error" role="alert"></p>
+</section>
+
+<section id="practice" hidden>
+<h2>빈칸 채우기</h2>
+<div class="progress-line"><span id="count">0 / 0 단어 완료</span><strong id="percent">0%</strong></div>
+<progress id="progress" value="0" max="1" aria-label="암송 진행률"></progress>
+<p style="color:#61735d;font-size:14px">완료한 단어는 초록색으로 고정됩니다. 띄어쓰기와 문장부호는 생략해도 됩니다. 단어가 완성되면 자동으로 다음 단어로 넘어갑니다.</p>
+<div id="verses" aria-label="절별 암송 빈칸"></div>
+<div class="input-panel">
+<label class="input-label" for="typing">현재 단어 입력</label>
+<input id="typing" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="help message">
+<p id="hint" hidden></p>
+<p id="help" style="font-size:13px;color:#71806d;margin:8px 0 0">단어만 입력하세요. 스페이스·엔터 없이 자동으로 넘어갑니다. 띄어쓰기와 문장부호는 검사하지 않습니다. 틀리면 Backspace로 수정하세요.</p>
+<p id="message" role="status" aria-live="polite"></p>
+<div class="controls">
+<label><input id="show" type="checkbox"> 현재 단어 힌트 보기</label>
+</div>
+<button id="restart" type="button">처음부터 다시</button>
+<button id="edit" class="secondary" type="button">본문 편집</button>
+</div>
+</section>
+
+<p>
+본문과 입력 내용은 외부로 전송되지 않습니다.
+새로고침하면 기본 본문으로 돌아가며 진행 상황은 초기화됩니다.
+</p>
+
+<script>
+(() => {
+  const el = id => document.getElementById(id);
+  const input = el('typing');
+  let verses = [];
+  let words = [];
+  let currentIndex = 0;
+  let composing = false;
+
+  function render() {
+    const root = el('verses');
+    root.replaceChildren();
+    let index = 0;
+    verses.forEach(verse => {
+      const row = document.createElement('div');
+      row.className = 'verse';
+      const number = document.createElement('strong');
+      number.className = 'number';
+      number.textContent = verse.number + '절';
+      const group = document.createElement('div');
+      group.className = 'words';
+      verse.words.forEach(word => {
+        const token = document.createElement('span');
+        token.className = 'word ' + (index < currentIndex ? 'done' : 'pending');
+        token.textContent = index < currentIndex ? word : '＿＿＿';
+        token.setAttribute('aria-label', index < currentIndex ? word : '미완료 단어');
+        group.append(token);
+        index++;
+      });
+      row.append(number, group);
+      root.append(row);
+    });
+    const total = words.length;
+    const percent = total ? Math.round(currentIndex / total * 100) : 0;
+    el('count').textContent = `${currentIndex} / ${total} 단어 완료`;
+    el('percent').textContent = percent + '%';
+    el('progress').max = total || 1;
+    el('progress').value = currentIndex;
+    updateHint();
+    if (currentIndex === total && total > 0) {
+      el('message').textContent = '모든 단어를 암송했습니다. 수고하셨습니다!';
+      el('message').className = 'success';
+      input.disabled = true;
+      input.placeholder = '암송 완료';
+    } else {
+      input.disabled = false;
+      input.placeholder = '다음 단어를 입력하세요';
+    }
+  }
+
+  function updateHint() {
+    const show = el('show').checked;
+    const hint = el('hint');
+    hint.hidden = !show || currentIndex >= words.length;
+    hint.textContent = show && currentIndex < words.length ? `힌트: ${words[currentIndex]}` : '';
+  }
+
+  // 공백과 문장부호를 제거해 단어 자체만 비교합니다.
+  // 예: "일을,"과 "일을"을 같은 정답으로 처리합니다.
+  function comparable(value) {
+    return value.normalize('NFC').replace(/[\s\p{P}\p{S}]/gu, '');
+  }
+
+  function checkInput() {
+    if (composing || currentIndex >= words.length) return;
+
+    const value = comparable(input.value);
+    const expected = comparable(words[currentIndex]);
+
+    if (value && value === expected) {
+      currentIndex += 1; // 정답일 때만 진행 인덱스가 증가합니다.
+      input.value = '';
+      el('message').textContent = '';
+      el('message').className = '';
+      render();
+      return;
+    }
+
+    if (value && !expected.startsWith(value)) {
+      el('message').textContent = '입력한 내용이 현재 단어와 다릅니다. Backspace로 수정해 주세요.';
+      el('message').className = '';
+    } else {
+      el('message').textContent = '';
+      el('message').className = '';
+    }
+  }
+
+  input.addEventListener('compositionstart', () => { composing = true; });
+  input.addEventListener('compositionend', () => {
+    composing = false;
+    // 한글 IME가 최종 입력값을 반영한 뒤 판정합니다.
+    queueMicrotask(checkInput);
+  });
+  input.addEventListener('input', checkInput);
+
+  el('start').addEventListener('click', () => {
+    const lines = el('text').value.normalize('NFC').split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+    verses = lines.map((line, i) => {
+      const match = line.match(/^(\d+)(?:절[.)]?\s*|[.)]\s*|\s+)(.*)$/);
+      const body = match ? match[2].trim() : line;
+      return { number: match ? match[1] : String(i + 1), words: body ? body.split(/\s+/) : [] };
+    }).filter(v => v.words.length);
+    words = verses.flatMap(v => v.words);
+    if (!words.length) { el('error').textContent = '본문을 먼저 입력해 주세요.'; return; }
+    el('error').textContent = '';
+    currentIndex = 0;
+    input.value = '';
+    el('setup').hidden = true;
+    el('practice').hidden = false;
+    render();
+    input.focus();
+  });
+
+  el('show').addEventListener('change', updateHint);
+  el('restart').addEventListener('click', () => {
+    currentIndex = 0;
+    input.value = '';
+    el('message').textContent = '';
+    el('message').className = '';
+    render();
+    input.focus();
+  });
+  el('edit').addEventListener('click', () => {
+    el('practice').hidden = true;
+    el('setup').hidden = false;
+    el('text').focus();
+  });
+})();
+</script>
+</body>
+</html>
