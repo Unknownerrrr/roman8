@@ -2,12 +2,12 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 <title>로마서 8장 암송</title>
 
 <style>
 * { box-sizing: border-box; }
-body { max-width: 900px; margin: 30px auto; padding: 20px; font-family: system-ui, sans-serif; line-height: 1.8; background: #f3f5ef; color: #294535; }
+body { max-width: 1100px; margin: 30px auto; padding: 20px; font-family: system-ui, sans-serif; line-height: 1.8; background: #f3f5ef; color: #294535; }
 section { background: white; padding: 24px; border-radius: 16px; margin: 18px 0; box-shadow: 0 4px 18px rgba(35,65,43,.05); }
 textarea { width: 100%; padding: 14px; font: inherit; border: 1px solid #aabbab; border-radius: 8px; resize: vertical; }
 button { padding: 10px 16px; margin: 8px 6px 0 0; background: #365c43; color: white; border: 0; border-radius: 8px; cursor: pointer; font: inherit; }
@@ -21,15 +21,34 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
 .word { display:inline-block; max-width:100%; overflow-wrap:anywhere; padding:4px 9px; border:1px solid #d8e0d4; border-radius:7px; background:#f7f8f5; color:#9aa397; }
 .word.done { color:#294535; background:#eaf2e4; border-color:#d5e4cd; }
 .word.pending { color:#a3aa9e; background:#fafbf9; }
-.input-panel { position:sticky; bottom:0; margin-top:20px; padding:16px; background:#fff; border:1px solid #dce5d8; border-radius:12px; box-shadow:0 -5px 18px rgba(35,65,43,.08); }
+:root { --panel-h: 170px; }
+.input-panel { position:sticky; top:0; z-index:10; margin:0 0 8px; padding:12px 16px; background:#fff; border:1px solid #dce5d8; border-radius:12px; box-shadow:0 6px 16px rgba(35,65,43,.10); }
+.panel-top { flex-wrap:wrap; display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:14px; color:#61735d; margin-bottom:4px; }
+.panel-top strong { color:#294535; }
+#verses { padding-bottom:60vh; }
+.verse { padding:16px 10px; border-left:4px solid transparent; border-radius:6px; }
+.verse.current { background:#f0f6ec; border-left-color:#477c54; }
+.verse-text { color:#294535; background:#eaf2e4; border-radius:7px; padding:6px 12px; overflow-wrap:anywhere; }
+.verse.flash .verse-text { animation: flash .9s ease-out; }
+@keyframes flash { 0% { background:#b9d9a8; } 100% { background:#eaf2e4; } }
+.controls button { margin:0; padding:6px 12px; font-size:14px; }
+.panel-msg { min-height:22px; }
+.practice-layout { display:block; }
+.verse:not(.current) .verse-text { opacity:.85; }
+@media (min-width:800px) {
+  .practice-layout { display:grid; grid-template-columns:300px minmax(0,1fr); gap:24px; align-items:start; }
+  .input-panel { top:16px; margin:0; }
+  #verses { min-width:0; }
+}
+@media (prefers-reduced-motion: reduce) { .verse.flash .verse-text { animation:none; } }
 .input-label { display:block; color:#61735d; font-size:14px; margin-bottom:6px; }
 #typing { width:100%; padding:12px 14px; border:2px solid #9bb393; border-radius:9px; font:inherit; font-size:20px; color:#294535; background:#fbfdf9; }
-#message { min-height:26px; margin:8px 0 0; color:#98422f; }
+#message { min-height:22px; margin:6px 0 0; font-size:14px; color:#98422f; }
 #message.success { color:#477c54; }
-#hint { color:#61735d; font-size:14px; margin:8px 0 0; }
+#hint { color:#61735d; font-size:14px; margin:4px 0 0; }
 .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 [hidden] { display:none !important; }
-@media (max-width:600px) { body { padding:12px; margin:12px auto; } section { padding:16px; } .verse { gap:8px; } .word { padding:4px 7px; } .input-panel { padding:12px; } }
+@media (max-width:600px) { body { padding:12px; margin:12px auto; } section { padding:16px; } .verse { gap:8px; padding:12px 6px; } .word { padding:4px 7px; } .input-panel { padding:10px 12px; } #typing { font-size:18px; } }
 </style>
 </head>
 
@@ -94,21 +113,22 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
 
 <section id="practice" hidden>
 <h2>빈칸 채우기</h2>
-<div class="progress-line"><span id="count">0 / 0 단어 완료</span><strong id="percent">0%</strong></div>
+<p style="color:#61735d;font-size:14px;margin:0 0 12px">단어를 입력하면 자동으로 다음 단어로 넘어갑니다. 띄어쓰기와 문장부호는 생략해도 되고, 틀리면 Backspace로 수정하세요. 현재 절은 화면 위쪽 1/3 지점에 자동으로 맞춰지고, 앞 절은 그 위에 계속 보입니다.</p>
+<div class="practice-layout">
+<div class="input-panel" id="panel">
+<div class="panel-top"><span id="count">0 / 0 단어 완료</span><span id="verseInfo"></span><strong id="percent">0%</strong></div>
 <progress id="progress" value="0" max="1" aria-label="암송 진행률"></progress>
-<p style="color:#61735d;font-size:14px">완료한 단어는 초록색으로 고정됩니다. 띄어쓰기와 문장부호는 생략해도 됩니다. 단어가 완성되면 자동으로 다음 단어로 넘어갑니다.</p>
-<div id="verses" aria-label="절별 암송 빈칸"></div>
-<div class="input-panel">
-<label class="input-label" for="typing">현재 단어 입력</label>
-<input id="typing" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="help message">
+<label class="input-label" for="typing" style="margin-top:8px">현재 단어 입력</label>
+<input id="typing" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="message">
 <p id="hint" hidden></p>
-<p id="help" style="font-size:13px;color:#71806d;margin:8px 0 0">단어만 입력하세요. 스페이스·엔터 없이 자동으로 넘어갑니다. 띄어쓰기와 문장부호는 검사하지 않습니다. 틀리면 Backspace로 수정하세요.</p>
 <p id="message" role="status" aria-live="polite"></p>
 <div class="controls">
-<label><input id="show" type="checkbox"> 현재 단어 힌트 보기</label>
-</div>
-<button id="restart" type="button">처음부터 다시</button>
+<label><input id="show" type="checkbox"> 힌트</label>
+<button id="restart" type="button">처음부터</button>
 <button id="edit" class="secondary" type="button">본문 편집</button>
+</div>
+</div>
+<div id="verses" aria-label="절별 암송 빈칸"></div>
 </div>
 </section>
 
@@ -126,37 +146,62 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
   let currentIndex = 0;
   let composing = false;
 
+  let lastVerseIdx = -1;
+  let flashIdx = -1;
+  let scrollTimer = null;
+
+  function verseIndexOfWord(i) {
+    if (!verses.length) return 0;
+    for (let v = 0; v < verses.length; v++) {
+      if (i < verses[v].start + verses[v].words.length) return v;
+    }
+    return verses.length - 1;
+  }
+
   function render() {
     const root = el('verses');
     root.replaceChildren();
-    let index = 0;
-    verses.forEach(verse => {
+    const curVerse = verseIndexOfWord(currentIndex);
+    const allDone = currentIndex >= words.length;
+    verses.forEach((verse, vi) => {
       const row = document.createElement('div');
-      row.className = 'verse';
+      const verseDone = currentIndex >= verse.start + verse.words.length;
+      row.className = 'verse' + (vi === curVerse && !allDone ? ' current' : '') + (vi === flashIdx ? ' flash' : '');
       const number = document.createElement('strong');
       number.className = 'number';
       number.textContent = verse.number + '절';
-      const group = document.createElement('div');
-      group.className = 'words';
-      verse.words.forEach(word => {
-        const token = document.createElement('span');
-        token.className = 'word ' + (index < currentIndex ? 'done' : 'pending');
-        token.textContent = index < currentIndex ? word : '＿＿＿';
-        token.setAttribute('aria-label', index < currentIndex ? word : '미완료 단어');
-        group.append(token);
-        index++;
-      });
-      row.append(number, group);
+      row.append(number);
+      if (verseDone) {
+        // 절이 끝나면 칩을 풀어 이어진 문장으로 보여줍니다.
+        const text = document.createElement('div');
+        text.className = 'verse-text';
+        text.textContent = verse.words.join(' ');
+        row.append(text);
+      } else {
+        const group = document.createElement('div');
+        group.className = 'words';
+        verse.words.forEach((word, wi) => {
+          const idx = verse.start + wi;
+          const token = document.createElement('span');
+          token.className = 'word ' + (idx < currentIndex ? 'done' : 'pending');
+          token.textContent = idx < currentIndex ? word : '＿＿＿';
+          token.setAttribute('aria-label', idx < currentIndex ? word : '미완료 단어');
+          group.append(token);
+        });
+        row.append(group);
+      }
       root.append(row);
     });
+    flashIdx = -1; // 강조는 한 번만 적용합니다.
     const total = words.length;
     const percent = total ? Math.round(currentIndex / total * 100) : 0;
     el('count').textContent = `${currentIndex} / ${total} 단어 완료`;
+    el('verseInfo').textContent = allDone ? '' : `${verses[curVerse].number}절 진행 중`;
     el('percent').textContent = percent + '%';
     el('progress').max = total || 1;
     el('progress').value = currentIndex;
     updateHint();
-    if (currentIndex === total && total > 0) {
+    if (allDone && total > 0) {
       el('message').textContent = '모든 단어를 암송했습니다. 수고하셨습니다!';
       el('message').className = 'success';
       input.disabled = true;
@@ -165,6 +210,27 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
       input.disabled = false;
       input.placeholder = '다음 단어를 입력하세요';
     }
+  }
+
+  // 절이 바뀔 때만 현재 절을 입력창 바로 아래로 맞춥니다.
+  function followCurrentVerse(delay) {
+    const idx = verseIndexOfWord(currentIndex);
+    if (idx === lastVerseIdx) return;
+    lastVerseIdx = idx;
+    clearTimeout(scrollTimer);
+    const go = () => {
+      const row = el('verses').children[idx];
+      if (!row) return;
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const wide = matchMedia('(min-width:800px)').matches;
+      const vh = window.innerHeight;
+      // 데스크톱: 화면 위에서 1/3 지점 / 모바일: 고정 패널 아래 영역의 위쪽 30% 지점
+      const panelH = el('panel').offsetHeight;
+      const anchor = wide ? vh * 0.33 : panelH + (vh - panelH) * 0.3;
+      const top = row.getBoundingClientRect().top + window.scrollY - anchor;
+      window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
+    };
+    if (delay) scrollTimer = setTimeout(go, delay); else go();
   }
 
   function updateHint() {
@@ -187,11 +253,15 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
     const expected = comparable(words[currentIndex]);
 
     if (value && value === expected) {
+      const before = verseIndexOfWord(currentIndex);
       currentIndex += 1; // 정답일 때만 진행 인덱스가 증가합니다.
+      const verseFinished = currentIndex >= words.length || verseIndexOfWord(currentIndex) !== before;
+      if (verseFinished) flashIdx = before;
       input.value = '';
       el('message').textContent = '';
       el('message').className = '';
       render();
+      followCurrentVerse(verseFinished ? 300 : 0);
       return;
     }
 
@@ -219,6 +289,8 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
       const body = match ? match[2].trim() : line;
       return { number: match ? match[1] : String(i + 1), words: body ? body.split(/\s+/) : [] };
     }).filter(v => v.words.length);
+    let run = 0;
+    verses.forEach(v => { v.start = run; run += v.words.length; });
     words = verses.flatMap(v => v.words);
     if (!words.length) { el('error').textContent = '본문을 먼저 입력해 주세요.'; return; }
     el('error').textContent = '';
@@ -226,17 +298,29 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
     input.value = '';
     el('setup').hidden = true;
     el('practice').hidden = false;
+    lastVerseIdx = -1;
     render();
+    followCurrentVerse(0);
     input.focus();
   });
 
-  el('show').addEventListener('change', updateHint);
+  el('show').addEventListener('change', () => { updateHint(); input.focus(); });
+
+  // 입력 패널 높이를 CSS 변수에 반영해 스크롤 위치 계산에 씁니다.
+  new ResizeObserver(() => {
+    document.documentElement.style.setProperty('--panel-h', el('panel').offsetHeight + 'px');
+  }).observe(el('panel'));
+
+  // 본문 영역을 눌러도 입력창 포커스를 유지합니다.
+  el('verses').addEventListener('click', () => { if (!input.disabled) input.focus({ preventScroll: true }); });
   el('restart').addEventListener('click', () => {
     currentIndex = 0;
     input.value = '';
     el('message').textContent = '';
     el('message').className = '';
+    lastVerseIdx = -1;
     render();
+    followCurrentVerse(0);
     input.focus();
   });
   el('edit').addEventListener('click', () => {
