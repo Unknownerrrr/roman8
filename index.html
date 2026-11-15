@@ -15,10 +15,10 @@ button.secondary { background: #e9eee6; color: #365c43; }
 button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid #87a675; outline-offset: 3px; }
 progress { width: 100%; height: 10px; accent-color: #477c54; }
 .progress-line { display:flex; justify-content:space-between; gap:12px; align-items:center; margin: 14px 0 4px; }
-.verse { display:flex; gap:14px; padding:16px 0; border-bottom:1px solid #e1e8dc; }
-.number { flex-shrink:0; padding-top:4px; color:#61735d; }
-.words { display:flex; flex-wrap:wrap; gap:7px; min-width:0; }
-.word { display:inline-block; max-width:100%; overflow-wrap:anywhere; padding:4px 9px; border:1px solid #d8e0d4; border-radius:7px; background:#f7f8f5; color:#9aa397; }
+.verse { display:flex; gap:8px; line-height:1.6; }
+.number { flex:0 0 2.2em; text-align:right; padding-top:3px; font-size:13px; font-weight:600; color:#566a52; font-variant-numeric:tabular-nums; }
+.words { display:flex; flex-wrap:wrap; gap:5px; min-width:0; }
+.word { display:inline-block; max-width:100%; overflow-wrap:anywhere; padding:1px 7px; border:1px solid #d8e0d4; border-radius:6px; background:#f7f8f5; color:#9aa397; }
 .word.done { color:#294535; background:#eaf2e4; border-color:#d5e4cd; }
 .word.pending { color:#a3aa9e; background:#fafbf9; }
 :root { --panel-h: 170px; }
@@ -26,15 +26,14 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
 .panel-top { flex-wrap:wrap; display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:14px; color:#61735d; margin-bottom:4px; }
 .panel-top strong { color:#294535; }
 #verses { padding-bottom:60vh; }
-.verse { padding:16px 10px; border-left:4px solid transparent; border-radius:6px; }
+.verse { padding:7px 10px 7px 6px; border-left:4px solid transparent; border-radius:6px; }
 .verse.current { background:#f0f6ec; border-left-color:#477c54; }
-.verse-text { color:#294535; background:#eaf2e4; border-radius:7px; padding:6px 12px; overflow-wrap:anywhere; }
+.verse-text { flex:1; min-width:0; color:#294535; line-height:1.7; overflow-wrap:anywhere; }
 .verse.flash .verse-text { animation: flash .9s ease-out; }
-@keyframes flash { 0% { background:#b9d9a8; } 100% { background:#eaf2e4; } }
+@keyframes flash { 0% { color:#5fa06b; } 100% { color:#294535; } }
 .controls button { margin:0; padding:6px 12px; font-size:14px; }
 .panel-msg { min-height:22px; }
 .practice-layout { display:block; }
-.verse:not(.current) .verse-text { opacity:.85; }
 @media (min-width:800px) {
   .practice-layout { display:grid; grid-template-columns:300px minmax(0,1fr); gap:24px; align-items:start; }
   .input-panel { top:16px; margin:0; }
@@ -48,22 +47,20 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
 #hint { color:#61735d; font-size:14px; margin:4px 0 0; }
 .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 [hidden] { display:none !important; }
-@media (max-width:600px) { body { padding:12px; margin:12px auto; } section { padding:16px; } .verse { gap:8px; padding:12px 6px; } .word { padding:4px 7px; } .input-panel { padding:10px 12px; } #typing { font-size:18px; } }
+.sr-only { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+@media (max-width:600px) { body { padding:12px; margin:12px auto; } section { padding:16px; } .verse { padding:6px 4px; } .word { padding:1px 6px; } .input-panel { padding:10px 12px; } #typing { font-size:18px; } }
 </style>
 </head>
 
 <body>
 <h1>로마서 8장 암송</h1>
-<p>단어를 입력하면 완성되는 즉시 다음 단어로 자동 이동합니다. 스페이스와 엔터는 필요 없습니다.</p>
+<p>단어를 다 입력하면 자동으로 다음 단어로 넘어갑니다. 띄어쓰기와 문장부호는 틀려도 자동으로 맞춰집니다.</p>
 
 <section id="setup">
 <h2>암송 본문</h2>
-<p>
-보내주신 로마서 8장 1–39절이 들어 있습니다.
-한 줄이 한 절입니다.
-</p>
+<p>로마서 8장 1–39절이 들어 있습니다. 한 줄이 한 절이며, 다른 본문을 붙여 넣어도 됩니다.</p>
 
-<label for="text">연습할 본문</label>
+<label for="text" class="sr-only">연습할 본문</label>
 
 <textarea id="text" rows="10">
 1 그러므로 이제 그리스도 예수 안에 있는 자에게는 결코 정죄함이 없나니
@@ -112,13 +109,12 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
 </section>
 
 <section id="practice" hidden>
-<h2>빈칸 채우기</h2>
-<p style="color:#61735d;font-size:14px;margin:0 0 12px">단어를 입력하면 자동으로 다음 단어로 넘어갑니다. 띄어쓰기와 문장부호는 생략해도 되고, 틀리면 Backspace로 수정하세요. 현재 절은 화면 위쪽 1/3 지점에 자동으로 맞춰지고, 앞 절은 그 위에 계속 보입니다.</p>
+<h2 class="sr-only">빈칸 채우기</h2>
 <div class="practice-layout">
 <div class="input-panel" id="panel">
 <div class="panel-top"><span id="count">0 / 0 단어 완료</span><span id="verseInfo"></span><strong id="percent">0%</strong></div>
-<progress id="progress" value="0" max="1" aria-label="암송 진행률"></progress>
-<label class="input-label" for="typing" style="margin-top:8px">현재 단어 입력</label>
+<progress id="progress" style="margin-bottom:8px" value="0" max="1" aria-label="암송 진행률"></progress>
+<label class="sr-only" for="typing">현재 단어 입력</label>
 <input id="typing" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="message">
 <p id="hint" hidden></p>
 <p id="message" role="status" aria-live="polite"></p>
@@ -169,7 +165,8 @@ progress { width: 100%; height: 10px; accent-color: #477c54; }
       row.className = 'verse' + (vi === curVerse && !allDone ? ' current' : '') + (vi === flashIdx ? ' flash' : '');
       const number = document.createElement('strong');
       number.className = 'number';
-      number.textContent = verse.number + '절';
+      number.setAttribute('aria-label', verse.number + '절');
+      number.textContent = verse.number;
       row.append(number);
       if (verseDone) {
         // 절이 끝나면 칩을 풀어 이어진 문장으로 보여줍니다.
